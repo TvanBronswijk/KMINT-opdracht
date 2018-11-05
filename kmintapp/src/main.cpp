@@ -53,47 +53,57 @@ const map::map_node &find_cow_node(const map::map_graph &graph) {
 	throw "could not find starting point";
 }
 
+void run() {
+	// een app object is nodig om
+	ui::app app{};
+
+	//  maak een venster aan
+	ui::window window{ app.create_window({1024, 768}, "hello") };
+
+	// maak een podium aan
+	play::stage s{};
+
+	// Laad een kaart
+	map::map m{ map::read_map(map_description) };
+	s.build_actor<play::background>(
+		math::size(1024, 768),
+		graphics::image{ m.background_image() });
+	s.build_actor<play::map_actor>(
+		math::vector2d{ 0.0f, 0.0f },
+		m.graph());
+
+	auto &my_cow = s.build_actor<cow>(m.graph(), find_cow_node(m.graph()));
+	auto &my_hare = s.build_actor<hare>(m.graph());
+	my_hare.set_cow(my_cow);
+
+	// Maak een event_source aan (hieruit kun je alle events halen, zoals
+	// toetsaanslagen)
+	ui::events::event_source event_source{};
+
+	// main_loop stuurt alle actors aan.
+	main_loop(s, window, [&](delta_time dt, loop_controls &ctl) {
+		// gebruik dt om te kijken hoeveel tijd versterken is
+		// sinds de vorige keer dat deze lambda werd aangeroepen
+		// loop controls is een object met eigenschappen die je kunt gebruiken om de
+		// main-loop aan te sturen.
+
+		for (ui::events::event &e : event_source) {
+			// event heeft een methode handle_quit die controleert
+			// of de gebruiker de applicatie wilt sluiten, en zo ja
+			// de meegegeven functie (of lambda) aanroept om met het
+			// bijbehorende quit_event
+			//
+			e.handle_quit([&ctl](ui::events::quit_event qe) { ctl.quit = true; });
+		}
+	});
+}
+
 int main() {
-  // een app object is nodig om
-  ui::app app{};
+	//run the program
+	run();
 
-  //  maak een venster aan
-  ui::window window{app.create_window({1024, 768}, "hello")};
+	//memory leak detection
+	_CrtDumpMemoryLeaks();
 
-  // maak een podium aan
-  play::stage s{};
-
-  // Laad een kaart
-  map::map m{ map::read_map(map_description) };
-  s.build_actor<play::background>(
-	  math::size(1024, 768),
-	  graphics::image{ m.background_image() });
-  s.build_actor<play::map_actor>(
-	  math::vector2d{ 0.0f, 0.0f },
-	  m.graph());
-
-  auto &my_cow = s.build_actor<cow>(m.graph(), find_cow_node(m.graph()));
-  auto &my_hare = s.build_actor<hare>(m.graph());
-  my_hare.set_cow(my_cow);
-
-  // Maak een event_source aan (hieruit kun je alle events halen, zoals
-  // toetsaanslagen)
-  ui::events::event_source event_source{};
-
-  // main_loop stuurt alle actors aan.
-  main_loop(s, window, [&](delta_time dt, loop_controls &ctl) {
-    // gebruik dt om te kijken hoeveel tijd versterken is
-    // sinds de vorige keer dat deze lambda werd aangeroepen
-    // loop controls is een object met eigenschappen die je kunt gebruiken om de
-    // main-loop aan te sturen.
-
-	  for (ui::events::event &e : event_source) {
-		  // event heeft een methode handle_quit die controleert
-		  // of de gebruiker de applicatie wilt sluiten, en zo ja
-		  // de meegegeven functie (of lambda) aanroept om met het
-		  // bijbehorende quit_event
-		  //
-		  e.handle_quit([&ctl](ui::events::quit_event qe) { ctl.quit = true; });
-	  }
-  });
+	return 0;
 }
