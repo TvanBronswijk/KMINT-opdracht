@@ -1,0 +1,2 @@
+# KMINT-opdracht
+Kunstmatige Intelligentie
