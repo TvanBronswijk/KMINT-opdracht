@@ -74,6 +74,7 @@ void run() {
 
 	auto &my_cow = s.build_actor<cow>(m.graph(), find_cow_node(m.graph()));
 	auto &my_hare = s.build_actor<hare>(m.graph());
+	my_cow.set_hare(my_hare);
 	my_hare.set_cow(my_cow);
 
 	// Maak een event_source aan (hieruit kun je alle events halen, zoals

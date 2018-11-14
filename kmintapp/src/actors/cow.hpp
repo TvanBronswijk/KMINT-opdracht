@@ -3,6 +3,9 @@
 #include "kmint/map/map.hpp"
 #include "kmint/play.hpp"
 #include "kmint/primitives.hpp"
+#include "hare.hpp"
+#include <map>
+
 class cow : public kmint::play::map_bound_actor {
 public:
 	cow(kmint::map::map_graph const &g, kmint::map::map_node const &initial_node);
@@ -13,6 +16,7 @@ public:
 	bool incorporeal() const override { return false; }
 	// geeft de radius van deze actor mee. Belangrijk voor collision detection
 	kmint::scalar radius() const override { return 16.0; }
+	void set_hare(hare &h) { hare_ = &h; }
 private:
 	// hoeveel tijd is verstreken sinds de laatste beweging
 	kmint::delta_time t_passed_{};
@@ -20,5 +24,9 @@ private:
 	kmint::play::image_drawable drawable_;
 	// edge_type const *next_edge_{nullptr};
 	// edge_type const *pick_next_edge();
+	void dijkstra(const kmint::graph::basic_node<kmint::map::map_node_info>& begin, const kmint::graph::basic_node<kmint::map::map_node_info>& end);
+	void restore_nodes(bool check, std::map<int, const kmint::graph::basic_node<kmint::map::map_node_info>*> visited);
+	hare *hare_;
+	
 };
 #endif /* KMINTAPP_COW_HPP */
