@@ -14,7 +14,8 @@ endif()
 add_executable(kmintapp
   src/main.cpp
   src/actors/hare.cpp
-  src/actors/cow.cpp)
+  src/actors/cow.cpp
+  src/algorithm.cpp)
 
 target_compile_features(kmintapp PUBLIC cxx_std_17)
 target_link_libraries(kmintapp PRIVATE kmint)

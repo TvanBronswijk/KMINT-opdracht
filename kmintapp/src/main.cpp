@@ -7,6 +7,7 @@
 #include "kmint/map/map.hpp"
 #include "actors/cow.hpp"
 #include "actors/hare.hpp"
+#include "algorithm.hpp"
 
 using namespace kmint; // alles van libkmint bevindt zich in deze namespace
 
@@ -72,10 +73,13 @@ void run() {
 		math::vector2d{ 0.0f, 0.0f },
 		m.graph());
 
-	auto &my_cow = s.build_actor<cow>(m.graph(), find_cow_node(m.graph()));
+	pathfinding alorithms(m.graph());
+	
+	auto &my_cow = s.build_actor<cow>(m.graph(), find_cow_node(m.graph()), alorithms);
 	auto &my_hare = s.build_actor<hare>(m.graph());
 	my_cow.set_hare(my_hare);
 	my_hare.set_cow(my_cow);
+
 
 	// Maak een event_source aan (hieruit kun je alle events halen, zoals
 	// toetsaanslagen)

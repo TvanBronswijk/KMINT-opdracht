@@ -67,11 +67,7 @@ public:
   std::size_t num_edges() const noexcept { return edges_.size(); }
   std::size_t node_id() const noexcept { return node_id_; }
   bool tagged() const noexcept { return tagged_; }
-  void queue(bool t) noexcept { queue_ = t; }
-  bool queue() const noexcept { return queue_; }
   void tagged(bool t) noexcept { tagged_ = t; }
-  std::size_t weight() const noexcept { return condition_; } // custom
-  void weight(std::size_t t) noexcept { condition_ = t; }  // custom
 
   friend class basic_graph<NodeInfo>;
 
@@ -90,8 +86,6 @@ private:
   kmint::math::vector2d location_;
   NodeInfo node_info_;
   bool tagged_{};
-  bool queue_{false};//false
-  std::size_t condition_{ 99999 }; // custom made
   container edges_{};
 };
 
