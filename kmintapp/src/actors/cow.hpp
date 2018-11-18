@@ -9,7 +9,7 @@
 
 class cow : public kmint::play::map_bound_actor {
 public:
-	cow(const kmint::map::map_graph &g, const kmint::map::map_node &initial_node, pathfinding &a);
+	cow(const kmint::map::map_graph &g, const kmint::map::map_node &initial_node, algorithm &a);
 //	cow(const kmint::map::map_graph &g, const kmint::map::map_node &initial_node, algorithm &a);
 	// wordt elke game tick aangeroepen
 	void act(kmint::delta_time dt) override;
@@ -28,7 +28,7 @@ private:
 	// edge_type const *next_edge_{nullptr};
 	// edge_type const *pick_next_edge();
 	hare *hare_ = nullptr;
-	pathfinding &algorithm_;
+	algorithm &algorithm_;
 	
 };
 #endif /* KMINTAPP_COW_HPP */

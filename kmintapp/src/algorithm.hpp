@@ -1,17 +1,21 @@
 #ifndef KMINTAPP_ALGORITHM_HPP
 #define KMINTAPP_ALGORITHM_HPP
 #include "kmint/map/map.hpp"
+#include <map>
+#include "conditions.hpp"
 
-#include "kmint/play.hpp"
-#include "actors/cow.hpp"
-#include "actors/hare.hpp"
+class cow;
+class hare;
 
-class pathfinding {
+class algorithm {
 private:
-	const kmint::map::map_graph &graph_;
+	size_t timer_ = 0;
+	std::map<size_t, conditions> conditions_; // dijkstra weight
+	kmint::map::map_graph &graph_;
 public:
-	pathfinding(kmint::map::map_graph &ding) : graph_(ding) {};
-	int dijkstra(const cow& begin,const hare& end) const;
+	algorithm(kmint::map::map_graph &g) : graph_(g) {};
+	int dijkstra( cow& begin, hare& end) const;
+	void calculate_dijkstra_weight(cow& begin, hare& end);
 		
 	
 };
