@@ -3,10 +3,9 @@
 
 class conditions {
 public:
-	conditions(size_t weight, size_t distance): weight_ { weight }, distance_{ distance } {}
+	conditions(size_t weight): weight_ { weight } {}
 
 	size_t weight_; // dijkstra weight
-	size_t distance_;
 
 };
 

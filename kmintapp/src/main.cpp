@@ -7,7 +7,7 @@
 #include "kmint/map/map.hpp"
 #include "actors/cow.hpp"
 #include "actors/hare.hpp"
-#include "algorithm.hpp"
+#include "pathfinding/algorithm.hpp"
 
 using namespace kmint; // alles van libkmint bevindt zich in deze namespace
 

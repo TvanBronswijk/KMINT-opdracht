@@ -4,7 +4,7 @@
 #include "kmint/play.hpp"
 #include "kmint/primitives.hpp"
 #include "kmint/random.hpp"
-#include "../algorithm.hpp"
+#include "../pathfinding/algorithm.hpp"
 
 class cow;
 class hare : public kmint::play::map_bound_actor {

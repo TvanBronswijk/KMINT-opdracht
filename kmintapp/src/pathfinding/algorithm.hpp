@@ -9,7 +9,7 @@ class hare;
 
 class algorithm {
 private:
-	size_t timer_ = 0;
+	//size_t timer_ = 0;
 	std::map<size_t, conditions> conditions_; // dijkstra weight
 	kmint::map::map_graph &graph_;
 public:

@@ -3,12 +3,12 @@
 #include <queue>
 #include <map>
 
-#include "actors/cow.hpp"
-#include "actors/hare.hpp"
+#include "../actors/cow.hpp"
+#include "../actors/hare.hpp"
 
 using namespace kmint;
 
-int algorithm::dijkstra(cow& begin,hare& end) const{	
+int algorithm::dijkstra(cow& begin,hare& end) const{
 	graph_.untag_all();
 
 	for (size_t i = 0; i < begin.node().num_edges(); i++) { // check if cow is near rabbit. 
@@ -46,14 +46,17 @@ int algorithm::dijkstra(cow& begin,hare& end) const{
 	return next_position;
 }
 
-void algorithm::calculate_dijkstra_weight(cow& begin, hare& end){
+void algorithm::calculate_dijkstra_weight(cow& begin, hare& end){//converted to A*
+	int base_direction_x = abs((end.node().location().x() - begin.node().location().x()));
+	int base_direction_y = abs((end.node().location().y() - begin.node().location().y()));
 	bool found = false;
 	std::map<size_t, conditions> tmp_conditions; // dijkstra weight
 	std::set<size_t> visited; // list of finished nodes
 	std::vector<size_t> queue; // list of unfinished nodes
 
 	queue.insert(queue.end(),begin.node().node_id());
-	tmp_conditions.insert(std::pair<size_t, conditions>(begin.node().node_id(), conditions(0,0)));
+	tmp_conditions.insert(std::pair<size_t, conditions>(begin.node().node_id(), 
+		conditions(0)));
 
 	size_t default_weight = 9999;
 	while (!queue.empty()) {
@@ -74,9 +77,11 @@ void algorithm::calculate_dijkstra_weight(cow& begin, hare& end){
 				}
 			}
 			else {
-				std::map<size_t, conditions>::iterator it1 = tmp_conditions.find(base.node_id());
-				queue.insert(queue.end(), base[i].to().node_id());
-				tmp_conditions.insert(std::pair<size_t, conditions>(base[i].to().node_id(), conditions((base[i].weight() + it1->second.weight_), 0)));
+				if (base_direction_x > abs((end.node().location().x() - base[i].to().location().x())) || base_direction_y > abs((end.node().location().y() - base[i].to().location().y()))){
+					std::map<size_t, conditions>::iterator it1 = tmp_conditions.find(base.node_id());
+					queue.insert(queue.end(), base[i].to().node_id());
+					tmp_conditions.insert(std::pair<size_t, conditions>(base[i].to().node_id(), conditions((base[i].weight() + it1->second.weight_))));
+				}
 			}
 			found = false;
 		}
