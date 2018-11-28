@@ -15,7 +15,10 @@ add_executable(kmintapp
   src/main.cpp
   src/actors/hare.cpp
   src/actors/cow.cpp
-  src/pathfinding/algorithm.cpp)
+  src/actors/item.cpp
+  src/autonomous_agent/preceptive_actor.cpp
+  src/autonomous_agent/rectangle_drawable.cpp
+  src/autonomous_agent/steering_behavior.cpp)
 
 target_compile_features(kmintapp PUBLIC cxx_std_17)
 target_link_libraries(kmintapp PRIVATE kmint)

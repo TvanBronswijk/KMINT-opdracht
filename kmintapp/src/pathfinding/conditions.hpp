@@ -3,7 +3,8 @@
 
 class conditions {
 public:
-	conditions(size_t weight): weight_ { weight } {}
+	conditions() : conditions(9999) {}
+	conditions(size_t weight): weight_{ weight }{}
 
 	size_t weight_; // dijkstra weight
 

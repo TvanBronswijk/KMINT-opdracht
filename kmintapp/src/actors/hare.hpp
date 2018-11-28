@@ -9,7 +9,7 @@
 class cow;
 class hare : public kmint::play::map_bound_actor {
 public:
-	hare(kmint::map::map_graph const &g, algorithm &a);
+	hare(kmint::map::map_graph &g);
 	void act(kmint::delta_time dt) override;
 	kmint::ui::drawable const &drawable() const override { return drawable_; }
 	void set_cow(cow &c) { cow_ = &c; }
@@ -17,7 +17,6 @@ public:
 	kmint::scalar radius() const override { return 16.0; }
 private:
 	kmint::play::image_drawable drawable_;
-	cow *cow_;
-	algorithm &algorithm_;
+	cow *cow_ = nullptr;
 };
 #endif /* KMINTAPP_HARE_HPP */
