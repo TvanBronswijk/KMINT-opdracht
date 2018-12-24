@@ -9,25 +9,26 @@
 #include "autonomous_agent/rectangle_drawable.hpp"
 #include "autonomous_agent/steering_behavior.hpp"
 
-class perceptive_actor : public kmint::play::free_roaming_actor {
+class perceptive_actor : public kmint::play::free_roaming_actor, public moving_entity {
 public:
-	perceptive_actor(kmint::math::vector2d location, bool shout, double mass, double max_speed, double max_force, double max_turn_rate)
-		: free_roaming_actor{ location }, drawable_{ *this }, shout_{ shout }, steering_{ steering_behavior(this, mass, max_speed, max_force, max_turn_rate) } {}
+	perceptive_actor(kmint::math::vector2d location, bool shout, double mass, double max_speed, double wander_radius, double wander_distance, double wander_jitter)
+		: free_roaming_actor{ location }, drawable_{ *this }, shout_{ shout }, steering_{ steering_behavior(this) }, 
+		moving_entity{mass,max_speed,wander_radius,wander_distance,wander_jitter } {}
 
 	const kmint::ui::drawable &drawable() const override { return drawable_; }
 	void move(kmint::math::vector2d delta) { location(location() + delta); }
 	void act(kmint::delta_time dt) override {
 		if (target_ != nullptr) {
-			kmint::math::vector2d seek = steering_.seek(target_->location());
+			kmint::math::vector2d seek = steering_.pursuit(*target_);
 			steering_.apply_force(seek);
 			steering_.update();
 		}
-		if (!shout_)
-			return;
-		for (auto i = begin_perceived(); i != end_perceived(); ++i) {
-			std::cout << "saw something at " << i->location().x() << ", "
-				<< i->location().y() << "\n";
-		}
+		//if (!shout_)
+		//	return;
+		//for (auto i = begin_perceived(); i != end_perceived(); ++i) {
+		//	std::cout << "saw something at " << i->location().x() << ", "
+		//		<< i->location().y() << "\n";
+		//}
 	}
 	void set_target(perceptive_actor& target) {
 		this->target_ = &target;

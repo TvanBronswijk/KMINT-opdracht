@@ -23,10 +23,12 @@ int main() {
 	// Plaats twee actors op het scherm
 	math::vector2d center{ 512, 384 }; 
 	math::vector2d begin{ 10, 10 };
-	auto &my_actor = s.build_actor<perceptive_actor>(begin, true, 10, 10, 10 ,10);
-	auto offset = center + math::vector2d{ 50, 50 };
-	auto &my_enemy = s.build_actor<perceptive_actor>(offset, false, 0, 0.1, 0.1, 0.1);
+	auto &my_actor = s.build_actor<perceptive_actor>(center, true, 0,0,0,0,0);
+	auto offset = center + math::vector2d{ 40, 40 };
+	auto &my_enemy = s.build_actor<perceptive_actor>(offset * 2, false, 1000, 0.4, 2.5, 2, 0.2);
+	auto &my_enemy2 = s.build_actor<perceptive_actor>(offset, false, 1000, 0.4, 2.5, 2, 0.2);
 	my_enemy.set_target(my_actor);
+	my_enemy2.set_target(my_actor);
 	// Maak een event_source aan (hieruit kun je alle events halen, zoals
 	// toetsaanslagen)
 	ui::events::event_source event_source{};
